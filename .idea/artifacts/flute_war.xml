@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="flute:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="flute.war">
+      <element id="artifact" artifact-name="flute:war exploded" />
+    </root>
+  </artifact>
+</component>

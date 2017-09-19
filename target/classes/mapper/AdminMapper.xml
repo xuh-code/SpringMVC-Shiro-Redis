@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "cn.test.dao.AdminDao">
+
+	<resultMap id="admin" type="cn.test.bean.Admin">
+		<result property="id" column="id" javaType="java.lang.Integer"/>
+		<result property="userName" column="userName" javaType="java.lang.String"/>
+		<result property="userPwd" column="userPwd" javaType="java.lang.String"/>
+		<result property="createTime" column="createTime" javaType="java.util.Date"/>
+		<result property="lastLoginTime" column="lastLoginTime" javaType="java.util.Date"/>
+		<result property="salt" column="salt" javaType="java.lang.String"/>
+		<result property="status" column="status" javaType="java.lang.Integer"/>
+	</resultMap>
+
+	<select id="getAdminByUserName" resultMap="admin">
+		SELECT userName,userPwd,salt,status,createTime,lastLoginTime,status
+		FROM admin
+        WHERE userName = 'admin'
+	</select>
+
+	<select id="getRoles" resultType="java.lang.String">
+		SELECT role.roleName
+		FROM (SELECT id
+			  FROM admin
+			  WHERE userName = #{username}) admin
+			LEFT JOIN
+			admin_roles admin_role ON admin_role.aid = admin.id
+			LEFT JOIN role role ON role.id = admin_role.rid;
+	</select>
+
+	<select id="getPermissions" resultType="String">
+		SELECT
+		p.permission
+		FROM  (SELECT id FROM admin WHERE userName = #{username}) a
+		LEFT JOIN
+			admin_roles a_r ON a_r.aid = a.id
+		LEFT JOIN role r ON r.id = a_r.rid
+
+		LEFT JOIN role_permission r_p ON r_p.rid = r.id
+		LEFT JOIN permission p ON p.id = r_p.pid;
+	</select>
+
+</mapper>
