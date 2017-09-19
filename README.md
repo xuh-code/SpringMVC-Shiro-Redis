@@ -1,4 +1,4 @@
- 项目整合 SpringMvc + Mybatis + Shiro +  Redis,做为学习的总结
+ 项目整合 SpringMvc + Mybatis + Shiro +  Redis
 
 
 
